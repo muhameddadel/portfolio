@@ -183,7 +183,7 @@ classified:{status:"unlocked",note:"You read the whole profile. Here is what a r
 function esc(s){return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;")}
 function ul(a){return "<ul>"+a.map(function(x){return "<li>"+esc(x)+"</li>"}).join("")+"</ul>"}
 var tout=document.getElementById("tout"),tin=document.getElementById("tin"),hist=[],hi=0,seen={},need=["about","experience","skills","education","contact"],
-P='<span class="tp">mohamed@adel:~$</span> ',CMDS=["help","about","experience","skills","education","contact","classified","theme","ls","cat","neofetch","whoami","pwd","echo","clear","sudo","exit"],THEMES=["default","python","node","react"],FILES=["about.txt","experience.txt","skills.txt","education.txt","contact.txt","classified.txt"];
+P='<span class="tp">mohamed@adel:~$</span> ',CMDS=["help","about","experience","skills","education","contact","classified","theme","ls","cat","whoami","pwd","echo","clear","sudo","exit"],THEMES=["default","python","node","react"],FILES=["about.txt","experience.txt","skills.txt","education.txt","contact.txt","classified.txt"];
 function line(h){var d=document.createElement("div");d.className="ln";d.innerHTML=h||"&nbsp;";tout.appendChild(d)}
 function lines(a){a.forEach(line)}
 function kv(k,v,w){w=w||14;return '<span class="tk">'+esc(k)+'</span> <span class="td">'+new Array(Math.max(3,w-k.length)).join(".")+'</span> <span class="tv">'+v+'</span>'}
@@ -191,21 +191,13 @@ function hl(c,d){return '<span class="tk">'+esc(c+new Array(Math.max(2,26-c.leng
 function cap(s){return s.charAt(0).toUpperCase()+s.slice(1)}
 function missing(){return need.filter(function(k){return !seen[k]})}
 var OUT={
-help:function(){return ['<span class="th">Commands</span>',hl("about","who I am"),hl("experience","where I have worked"),hl("skills","what I work with"),hl("education","where I studied"),hl("contact","how to reach me"),hl("theme <name>","default, python, node or react"),hl("ls, cat <file>","list and read files"),hl("neofetch","my profile, system style"),hl("clear","clear the screen"),"",'<span class="td">Tab completes a command. Up and Down repeat earlier ones.</span>']},
+help:function(){return ['<span class="th">Commands</span>',hl("about","who I am"),hl("experience","where I have worked"),hl("skills","what I work with"),hl("education","where I studied"),hl("contact","how to reach me"),hl("theme <name>","default, python, node or react"),hl("ls, cat <file>","list and read files"),hl("clear","clear the screen"),"",'<span class="td">Tab completes a command. Up and Down repeat earlier ones.</span>']},
 about:function(){var a=D.about;return ['<span class="th">mohamed@adel</span> <span class="td">'+new Array(31).join("─")+'</span>',kv("Role",esc(a.role)),kv("Experience",esc(a.experience_years)+" years"),kv("Stack",esc(a.stack.join(", "))),kv("Based in",esc(a.location)),kv("Languages","Arabic (native), English (professional)")]},
 experience:function(){var o=[];D.experience.forEach(function(j,i){if(i)o.push("");o.push('<span class="th">▸ '+esc(j.role)+'</span> <span class="td">@</span> <span class="tv">'+esc(j.company)+'</span>');o.push('<span class="td">  '+esc(j.period)+' · '+esc(j.type)+'</span>');j.highlights.forEach(function(h){o.push('  <span class="td">-</span> '+esc(h))})});return o},
 skills:function(){return Object.keys(D.skills).map(function(k){return kv({apis:"APIs",devops:"DevOps"}[k]||cap(k),esc(D.skills[k].join(", ")),15)})},
 education:function(){var e=D.education;return [kv("Degree",esc(e.degree),22),kv("School",esc(e.school),22),kv("Period",esc(e.period),22),kv("Grade",esc(e.grade),22),kv("Graduation project",esc(e.graduation_project),22)]},
 contact:function(){var c=D.contact;return [kv("Email",'<a href="mailto:'+esc(c.email)+'">'+esc(c.email)+'</a>'),kv("LinkedIn",'<a href="'+esc(c.linkedin)+'" target="_blank" rel="noopener">muhamddadel</a>'),kv("GitHub",'<a href="'+esc(c.github)+'" target="_blank" rel="noopener">muhameddadel</a>'),"",'<span class="td">Email is the fastest way to reach me.</span>']},
 classified:function(){var m=missing();if(m.length)return ['<span class="te">classified: permission denied</span>','<span class="td">Read these first: '+esc(m.join(", "))+'</span>'];var c=D.classified,o=['<span class="th">'+esc(c.note)+'</span>'];c.habits.forEach(function(h){o.push('<span class="td">-</span> '+esc(h))});o.push("");o.push(esc(c.next)+' <a href="mailto:'+esc(D.contact.email)+'">Email me</a>');return o},
-neofetch:function(){var Lb=["      /","     / ","    /  ","   <   ","    \\  ","     \\ ","      \\"],Rb=["\\      "," \\     ","  \\    ","   >   ","  /    "," /     ","/      "],
-M=["██     ██","███   ███","██ █ █ ██","██  █  ██","██     ██","██     ██","██     ██"],A=["  ████  "," ██  ██ ","██    ██","████████","██    ██","██    ██","██    ██"],logo=[],i;
-for(i=0;i<7;i++)logo.push('<span style="color:#16b364">'+esc(Lb[i])+'</span>  <span class="th">'+M[i]+'  '+A[i]+'</span>  <span style="color:#0ea5e9">'+esc(Rb[i])+'</span>');
-var a=D.about,sk=document.documentElement.dataset.skin||"default",kk=function(k,v){return '<span class="tk">'+esc(k)+'</span><span class="td">:</span> '+v},
-pal=["#ff5f57","#febc2e","#28c840","#61dafb","#3776ab","#6cc24a","#a371f7","#7c95ff"].map(function(c){return '<span style="color:'+c+'">███</span>'}).join(""),
-info=['<span class="th">mohamed@adel</span>','<span class="td">'+new Array(13).join("─")+'</span>',kk("Role",esc(a.role)),kk("Experience",esc(a.experience_years)+" years"),kk("Stack",esc(a.stack.join(", "))),kk("Databases","PostgreSQL, MySQL, MongoDB, Redis"),kk("DevOps","Docker, Nginx, GitHub Actions"),kk("Languages","Arabic, English"),kk("Shell","zsh"),kk("Theme",esc(sk)),kk("Email",'<a href="mailto:'+esc(D.contact.email)+'">'+esc(D.contact.email)+'</a>'),"",pal],o=[],off=Math.floor((info.length-7)/2),r,pad=new Array(38).join(" ");
-if(tout.clientWidth<620)return logo.concat([""],info);
-for(r=0;r<info.length;r++)o.push((r>=off&&r<off+7?logo[r-off]:pad)+"   "+info[r]);return o},
 ls:function(){return ['<span class="tk">'+FILES.join("  ")+'</span>']},
 whoami:function(){return ["mohamed"]},
 pwd:function(){return ["/home/mohamed/portfolio"]},
@@ -229,7 +221,7 @@ function complete(){var v=tin.value,p=v.split(/\s+/),w=p[p.length-1].toLowerCase
 if(m.length===1){p[p.length-1]=m[0];tin.value=p.join(" ")+(p.length===1&&m[0]!=="clear"?" ":"")}else if(m.length>1){line(P+esc(v));line('<span class="tk">'+esc(m.join("  "))+'</span>');tout.scrollTop=tout.scrollHeight}}
 tin.addEventListener("keydown",function(e){if(e.key==="Enter"){var v=tin.value;tin.value="";run(v)}else if(e.key==="Tab"){e.preventDefault();complete()}else if(e.key==="ArrowUp"){e.preventDefault();if(hi>0)tin.value=hist[--hi]}else if(e.key==="ArrowDown"){e.preventDefault();if(hi<hist.length-1)tin.value=hist[++hi];else{hi=hist.length;tin.value=""}}});
 document.getElementById("term").addEventListener("click",function(e){if(!(getSelection()+"")&&!e.target.closest("a,button"))tin.focus()});
-["about","experience","skills","education","contact","classified","neofetch","help","clear"].forEach(function(c){var b=document.createElement("button");b.type="button";b.dataset.c=c;b.textContent=c;b.onclick=function(){run(c)};document.getElementById("tchips").appendChild(b)});
+["about","experience","skills","education","contact","classified","help","clear"].forEach(function(c){var b=document.createElement("button");b.type="button";b.dataset.c=c;b.textContent=c;b.onclick=function(){run(c)};document.getElementById("tchips").appendChild(b)});
 line('<span class="td">Welcome to mohamed.sh. Type help, or tap a command below.</span>');line("");run("about");
 
 (function(){var h=document.querySelector(".hero");if(!h)return;var f=document.createElement("div");f.className="fx";f.setAttribute("aria-hidden","true");
